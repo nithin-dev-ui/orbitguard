@@ -1,36 +1,146 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ORBITGUARD
+### Uncertainty-Aware Satellite Collision Avoidance Sandbox
 
-## Getting Started
+**Test the decision. Understand the risk. Compare the maneuver.**
 
-First, run the development server:
+OrbitGuard is an experimental, browser-based simulation sandbox that explores how uncertainty in satellite conjunction scenarios can affect collision-avoidance maneuver decisions.
+
+It compares a baseline maneuver-selection approach with an uncertainty-aware candidate search using repeatable, seeded simulation trials.
+
+> **Research prototype:** OrbitGuard is an educational demonstration built around a simplified model. It is not flight-ready software and does not calculate validated real-world collision probabilities.
+
+## 🚀 Project Overview
+
+Satellite conjunction assessments involve uncertainty in estimated positions and future trajectories. A maneuver that appears safe under nominal estimates may produce different outcomes when position uncertainty is considered.
+
+OrbitGuard provides an interactive environment to explore this challenge, compare candidate maneuvers, and observe how uncertainty affects simulated safety outcomes.
+
+## ✨ Key Features
+
+- **Interactive scenario controls:** Adjust nominal miss distance, position uncertainty, safety threshold, maneuver budget, and response horizon.
+- **Candidate maneuver search:** Evaluate 21 candidate maneuver values within the configured budget.
+- **Repeatable simulation trials:** Run 1,000 simulated trials using seeded Gaussian position-error samples.
+- **Baseline comparison:** Compare a nominal-threshold-based baseline with an uncertainty-aware candidate-selection approach.
+- **Risk-oriented evaluation:** Measure the fraction of simulated trials that fall below the configured safety threshold.
+- **Constraint awareness:** Identify whether a candidate meets the configured simulated unsafe-trial target.
+- **Transparent results:** Inspect candidate maneuver values, nominal separations, simulated unsafe-trial rates, and selections.
+- **Browser-based dashboard:** Explore scenarios without installing specialized aerospace software.
+
+## ⚙️ How It Works
+
+1. **Configure a scenario:** Set the nominal miss distance, uncertainty scale, safety threshold, maneuver budget, and response horizon.
+2. **Generate candidates:** Create 21 candidate maneuver values across the configured maneuver budget.
+3. **Simulate uncertainty:** Apply seeded Gaussian position-error samples to evaluate simulated separations.
+4. **Measure outcomes:** Count trials in which the simulated separation falls below the safety threshold.
+5. **Compare approaches:** Evaluate the baseline selection against the uncertainty-aware candidate search.
+6. **Inspect the result:** Review nominal separation, simulated unsafe-trial rate, and whether the configured target is met.
+
+### Candidate Selection
+
+The experimental candidate search prefers the lowest-magnitude candidate that meets the configured simulated unsafe-trial target. If no candidate meets the target, it selects the candidate with the lowest observed unsafe-trial rate, using maneuver magnitude to break ties.
+
+The selected result is based on the current simplified simulation, not on a validated orbital dynamics or operational collision-risk model.
+
+## 🧪 Simulation Assumptions and Limitations
+
+OrbitGuard currently uses a simplified one-dimensional separation model in which the maneuver changes nominal separation according to:
+
+`nominal separation = |miss distance + Δv × response horizon|`
+
+Position errors are generated from a seeded Gaussian distribution, and the simulated unsafe-trial rate is the fraction of trials whose separation falls below the configured safety threshold.
+
+The current prototype does **not** include:
+
+- Full orbital dynamics or high-fidelity orbit propagation
+- Real satellite conjunction or tracking data
+- Maneuver execution errors
+- Correlated position uncertainty
+- Validated operational collision-probability calculations
+- Flight-qualified guidance, navigation, or control systems
+
+A simulated unsafe-trial rate should not be interpreted as a real-world collision probability.
+
+## 🛠️ Technology Stack
+
+- **Next.js** — Application framework
+- **React** — Interactive user interface
+- **TypeScript** — Application logic and type safety
+- **Tailwind CSS** — Dashboard styling
+- **JavaScript simulation logic** — Candidate generation, seeded uncertainty sampling, and evaluation
+
+## 💻 Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm
+- Git
+
+### Installation
+
+Clone the repository:
+
+```bash
+git clone https://github.com/nithin-dev-ui/orbitguard.git
+```
+
+Navigate to the project directory:
+
+```bash
+cd orbitguard
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Production Build
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+To verify the production build:
 
-## Learn More
+```bash
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+## 🎯 Project Goals
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+OrbitGuard aims to make uncertainty-aware decision comparison easier to understand through an interactive, transparent simulation.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The prototype demonstrates how candidate evaluation, repeatable experiments, safety constraints, and maneuver magnitude can be explored together in a single dashboard.
 
-## Deploy on Vercel
+## 🔭 Future Improvements
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Potential future development includes:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- More realistic orbital dynamics and relative-motion models
+- Publicly available conjunction datasets for research and testing
+- Additional uncertainty models and maneuver constraints
+- Expanded scenario comparisons and experiment summaries
+- Automated tests for simulation behavior and edge cases
+- Clearer visualizations of uncertainty and simulated outcomes
+
+These are proposed improvements, not features claimed to be implemented.
+
+## 👥 Team
+
+**Team NeuralForge**
+
+Developed for **CodeX MIN-360** at SJC Institute of Technology.
+
+## 📌 Disclaimer
+
+OrbitGuard is an experimental educational and research prototype. Its simplified assumptions and simulation outputs are intended for exploration and demonstration only. They must not be used to make operational satellite maneuver decisions or to assess actual collision risk.
+
+---
+
+**ORBITGUARD — Better decisions begin with testing uncertainty.**
